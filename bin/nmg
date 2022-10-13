@@ -32,10 +32,11 @@ test_has_dir_x_access() {
 # Commands
 
 init() {
+  local exclude_file="$(git rev-parse --show-toplevel)/.git/info/exclude"
   test -f 'node_modules.sparseimage' ||
     hdiutil create -size '1G' -type 'SPARSE' -volname 'node_modules' 'node_modules.sparseimage'
-  test_line_exists_in_file '/node_modules.sparseimage' '.git/info/exclude' ||
-    echo >>'.git/info/exclude' '/node_modules.sparseimage'
+  test_line_exists_in_file 'node_modules.sparseimage' "$exclude_file" ||
+    echo >>"$exclude_file" 'node_modules.sparseimage'
 
   echo 'Initialized node_modules.sparseimage.'
 
