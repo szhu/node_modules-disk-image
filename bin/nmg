@@ -10,11 +10,12 @@ set -e
 # Utils
 
 self_name() {
-  if [ "$(dirname "$0")" = "$PWD" ]; then
-    echo "./$(basename "$0")"
-  else
-    echo "$0"
-  fi
+  basename "$0"
+  # if [ "$(dirname "$0")" = "$PWD" ]; then
+  #   echo "./$(basename "$0")"
+  # else
+  #   echo "$0"
+  # fi
 }
 
 test_line_exists_in_file() {
