@@ -1,9 +1,5 @@
 #!/bin/sh
 # File formatted with shell-format.
-#
-# This tool creates a disk image to put node_modules in. This makes it so that
-# when the disk image is not mounted, it is treated as a single file by
-# Spotlight and other tools to do expensive tasks on a per-file basis.
 
 set -e
 
@@ -33,6 +29,11 @@ test_has_dir_x_access() {
 
 init() {
   local exclude_file="$(git rev-parse --show-toplevel)/.git/info/exclude"
+  # A size of 1GB is currently hardcoded. I hope your node_modules folder is not
+  # bigger than that!
+  #
+  # If it is, just edit `1G`. Feel free to make it super large, the sparse disk
+  # image format always starts small and the size set here it just its max size.
   test -f 'node_modules.sparseimage' ||
     hdiutil create -size '1G' -type 'SPARSE' -volname 'node_modules' 'node_modules.sparseimage'
   test_line_exists_in_file 'node_modules.sparseimage' "$exclude_file" ||
